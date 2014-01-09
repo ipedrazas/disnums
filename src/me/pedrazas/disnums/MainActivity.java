@@ -1,4 +1,6 @@
-package com.example.spots;
+package me.pedrazas.disnums;
+
+import me.pedrazas.disnums.R;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

@@ -1,4 +1,4 @@
-package com.example.spots;
+package me.pedrazas.disnums;
 
 import java.util.Random;
 

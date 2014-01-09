@@ -1,4 +1,4 @@
-package com.example.spots;
+package me.pedrazas.disnums;
 
 import android.content.Context;
 import android.graphics.Canvas;
