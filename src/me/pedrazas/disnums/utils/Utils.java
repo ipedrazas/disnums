@@ -1,4 +1,4 @@
-package me.pedrazas.disnums;
+package me.pedrazas.disnums.utils;
 
 import java.util.Random;
 
