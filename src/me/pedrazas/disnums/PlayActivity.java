@@ -2,6 +2,7 @@ package me.pedrazas.disnums;
 
 import java.util.ArrayList;
 
+import me.pedrazas.disnums.utils.StopWatch;
 import me.pedrazas.disnums.utils.Utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -23,6 +24,7 @@ public class PlayActivity extends Activity {
 	protected static final int REQUEST_OK = 1;
 	int green = 0;
 	int red = 0;
+	private final StopWatch stopWatch = new StopWatch();
 	
 	private boolean isGreen(){
 		if( this.green < this.red){
@@ -67,7 +69,10 @@ public class PlayActivity extends Activity {
 
             @Override
             public void onError(int error) {
+            	stopWatch.stop();
                     Log.d("Circles", "onError " + error);
+                    Log.d("Circles", "Total time: " + stopWatch.getElapsedTimeSecs());
+                    Log.d("Circles", "Red, Green: " + red + ", " + green);
                     // timeout or no match
                     if(error == 6 || error == 7){
                     	Intent intent = new Intent(PlayActivity.this, ResultActivity.class);
@@ -94,7 +99,10 @@ public class PlayActivity extends Activity {
 
             @Override
             public void onResults(Bundle results) {
+            		stopWatch.stop();
                     Log.d("Circles", "onResults");
+                    Log.d("Circles", "Total time: " + stopWatch.getElapsedTimeSecs());
+                    Log.d("Circles", "Red, Green: " + red + ", " + green);
                     ArrayList<String> strlist = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                     String color = this.getColor(strlist);
                     Log.d("Circles", "Color=" + color);
@@ -152,15 +160,16 @@ public class PlayActivity extends Activity {
 				        	int width = lc1.getWidth();
 				        	int height = lc1.getHeight();
 				        	
-				        	lc1.addView(new CirclesView(PlayActivity.this, Color.RED, width, height, 3));
-				        	lc2.addView(new CirclesView(PlayActivity.this, Color.GREEN, width, height, 4));
+				        	lc1.addView(new CirclesView(PlayActivity.this, Color.RED, width, height, PlayActivity.this.red));
+				        	lc2.addView(new CirclesView(PlayActivity.this, Color.GREEN, width, height, PlayActivity.this.green));
 				        	
 				        	ViewTreeObserver obs = lc1.getViewTreeObserver();
 				            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 				                obs.removeOnGlobalLayoutListener(this);
 				            } else {
 				                obs.removeGlobalOnLayoutListener(this);
-				            }			            
+				            }
+				            stopWatch.start();
 				        }
 				});
 	}

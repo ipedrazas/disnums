@@ -3,6 +3,7 @@ package me.pedrazas.disnums;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.pedrazas.disnums.om.Position;
 import me.pedrazas.disnums.utils.Utils;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -67,8 +68,8 @@ public class CirclesView extends View{
 		if(x==0 || y==0){
 			return true;
 		}
-		if(x > (p.getX() - this.sizePoint/2) && x < (p.getX() + this.sizePoint/2)){
-			if(y > (p.getY() - this.sizePoint/2) && y < (p.getY() + this.sizePoint/2)){
+		if(x > (p.getX() - this.sizePoint) && x < (p.getX() + this.sizePoint)){
+			if(y > (p.getY() - this.sizePoint) && y < (p.getY() + this.sizePoint)){
 				return true;
 			}
 		}

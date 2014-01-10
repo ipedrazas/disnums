@@ -1,4 +1,4 @@
-package me.pedrazas.disnums;
+package me.pedrazas.disnums.om;
 
 public class Position {
 	private int x = 0;
