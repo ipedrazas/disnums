@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	public void sendMessage(View view) 
+	public void doPlay(View view) 
 	{
 	    Intent intent = new Intent(MainActivity.this, PlayActivity.class);
 	    startActivity(intent);
