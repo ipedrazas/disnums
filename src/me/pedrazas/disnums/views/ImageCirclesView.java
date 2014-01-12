@@ -1,4 +1,4 @@
-package me.pedrazas.disnums;
+package me.pedrazas.disnums.views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,13 +6,15 @@ import java.util.List;
 import me.pedrazas.disnums.om.Position;
 import me.pedrazas.disnums.utils.Utils;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-public class CirclesView extends View{
+public class ImageCirclesView extends View{
 
 	Paint p = null;
 	int color = 0;	
@@ -22,7 +24,7 @@ public class CirclesView extends View{
 	int sizePoint = 26;
 	List<Position> positions = null;
 	
-	public CirclesView(Context context, int color, int width, int height, int elems) {
+	public ImageCirclesView(Context context, int color, int width, int height, int elems) {
 		super(context);
 		setFocusable(true);
 		p = new Paint();
@@ -33,15 +35,15 @@ public class CirclesView extends View{
 		this.positions = new ArrayList<Position>();
 	}
 
-	public CirclesView(Context context, AttributeSet attrs, int defStyleAttr) {
+	public ImageCirclesView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 	}
 
-	public CirclesView(Context context, AttributeSet attrs) {
+	public ImageCirclesView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public CirclesView(Context context) {
+	public ImageCirclesView(Context context) {
 		super(context);
 	}
 
@@ -94,10 +96,12 @@ public class CirclesView extends View{
 			Log.d("Circles", "Postion: " + x + ", " + y);
 		}
 		this.positions.add(new Position(x, y));
-		p.setAntiAlias(true);
-		p.setColor(color);
-		p.setStyle(Paint.Style.FILL); 
-		canvas.drawCircle(x, y, sizePoint, p);
+		Bitmap mBackground = BitmapFactory.decodeResource(getResources(), this.color);
+//		p.setAntiAlias(true);
+//		p.setColor(color);
+//		p.setStyle(Paint.Style.FILL); 
+//		canvas.drawCircle(x, y, sizePoint, p);
+		canvas.drawBitmap(mBackground, x, y, new Paint());
 		Log.d("Circles", "Circle drawn at: " + x + ", " + y + " of " + this.elements + " circles");
 	}
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import me.pedrazas.disnums.utils.StopWatch;
 import me.pedrazas.disnums.utils.Utils;
+import me.pedrazas.disnums.views.ImageCirclesView;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -160,9 +161,9 @@ public class PlayActivity extends Activity {
 				        	int width = lc1.getWidth();
 				        	int height = lc1.getHeight();
 				        	
-				        	lc1.addView(new CirclesView(PlayActivity.this, Color.RED, width, height, PlayActivity.this.red));
-				        	lc2.addView(new CirclesView(PlayActivity.this, Color.GREEN, width, height, PlayActivity.this.green));
-				        	
+				        	lc1.addView(new ImageCirclesView(PlayActivity.this, R.drawable.circle_red, width, height, PlayActivity.this.red));
+				        	lc2.addView(new ImageCirclesView(PlayActivity.this, R.drawable.circle_green, width, height, PlayActivity.this.green));
+
 				        	ViewTreeObserver obs = lc1.getViewTreeObserver();
 				            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 				                obs.removeOnGlobalLayoutListener(this);
