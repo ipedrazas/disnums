@@ -16,23 +16,25 @@ import android.view.View;
 
 public class ImageCirclesView extends View{
 
-	Paint p = null;
 	int color = 0;	
 	int width = 0;
 	int height = 0;
 	int elements = 0;
-	int sizePoint = 26;
+	int sizePoint = 0;
+	int x = 0;
+	int y = 0;
 	List<Position> positions = null;
 	
 	public ImageCirclesView(Context context, int color, int width, int height, int elems) {
 		super(context);
 		setFocusable(true);
-		p = new Paint();
+//		Log.d("Circles", "ImageCircleView: (" + x + ", " + y + " - " + width + ", " + height);
 		this.color = color;
 		this.width = width;
 		this.height = height;
 		this.elements = elems;
-		this.positions = new ArrayList<Position>();
+		this.positions = new ArrayList<Position>();		
+
 	}
 
 	public ImageCirclesView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -55,26 +57,45 @@ public class ImageCirclesView extends View{
 	 * 
 	 */
 	private boolean isUsed(int x, int y){
-		boolean res = false;
-		for (Position p : this.positions){
-//			if(x == p.getX() || y == p.getY()){
-//				res = true;
-//			}
-			return this.isInSurroundings(p, x, y);
-		}
-		return res;
-	}
-	
-	private boolean isInSurroundings(Position p, int x, int y){
-		// don't want dots on the borders
-		if(x==0 || y==0){
+		if(this.isNearABorder(x, y)){
 			return true;
 		}
-		if(x > (p.getX() - this.sizePoint) && x < (p.getX() + this.sizePoint)){
-			if(y > (p.getY() - this.sizePoint) && y < (p.getY() + this.sizePoint)){
+		for (Position p : this.positions){
+			if(this.isInSurroundings(p, x, y)){
 				return true;
 			}
 		}
+		return false;
+	}
+	
+	private boolean isNearABorder(int x, int y){
+		if(x<this.sizePoint){
+			return true;
+		}
+		if(y<this.sizePoint){
+			return true;
+		}
+		if(this.width-this.sizePoint < x){
+			return true;
+		}
+		if(this.height-this.sizePoint < y){
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean isInSurroundings(Position p, int x, int y){
+		int initX = p.getX() - this.sizePoint;
+		int initY = p.getY() - this.sizePoint;
+		int deltaX = p.getX() + this.sizePoint;
+		int deltaY = p.getY() + this.sizePoint;
+		
+//		Log.d("Circles", "Entry: " + x + ", " + y + " position: " + p.getX() + "-" + deltaX + ", " + p.getY() + "-" + deltaY);
+		
+		if((x > initX && x < deltaX) && (y > initY && y < deltaY)){
+			return true;
+		}
+
 		return false;
 	}
 	
@@ -88,21 +109,21 @@ public class ImageCirclesView extends View{
 	}
 	
 	private void addCircle(Canvas canvas){
+		Bitmap dot = BitmapFactory.decodeResource(getResources(), this.color);
+		this.sizePoint = dot.getWidth();
 		int x = Utils.randInt(sizePoint + 5, width-(sizePoint + 5));
 		int y = Utils.randInt(sizePoint + 5, width-(sizePoint + 5));
 		while(isUsed(x,y)){
 			x = Utils.randInt(sizePoint + 5, width-(sizePoint + 5));
 			y = Utils.randInt(sizePoint + 5,  height-(sizePoint + 5));
-			Log.d("Circles", "Postion: " + x + ", " + y);
+//			Log.d("Circles", "Postion: " + x + ", " + y);
 		}
 		this.positions.add(new Position(x, y));
-		Bitmap mBackground = BitmapFactory.decodeResource(getResources(), this.color);
-//		p.setAntiAlias(true);
-//		p.setColor(color);
-//		p.setStyle(Paint.Style.FILL); 
-//		canvas.drawCircle(x, y, sizePoint, p);
-		canvas.drawBitmap(mBackground, x, y, new Paint());
-		Log.d("Circles", "Circle drawn at: " + x + ", " + y + " of " + this.elements + " circles");
+		Paint p = new Paint();
+		
+		p.setAntiAlias(true);
+		canvas.drawBitmap(dot, x, y, new Paint());
+		Log.d("Circles", "Circle drawn at: " + x + ", " + y + " in " + this.width + ", " + this.height + " of " + this.elements + " circles: " + dot.getWidth() + "-" + dot.getHeight());
 	}
 	
 	@Override

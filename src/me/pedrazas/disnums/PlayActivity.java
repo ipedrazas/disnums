@@ -8,7 +8,6 @@ import me.pedrazas.disnums.views.ImageCirclesView;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -23,12 +22,12 @@ import android.widget.LinearLayout;
 public class PlayActivity extends Activity {
 	
 	protected static final int REQUEST_OK = 1;
-	int green = 0;
+	int blue = 0;
 	int red = 0;
 	private final StopWatch stopWatch = new StopWatch();
 	
-	private boolean isGreen(){
-		if( this.green < this.red){
+	private boolean isBlue(){
+		if( this.blue < this.red){
 			return false;
 		}else{
 			return true;
@@ -39,19 +38,19 @@ public class PlayActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_play);
-		green = Utils.randInt(1, 10);
+		blue = Utils.randInt(1, 10);
 		red = Utils.randInt(1, 10);
 		// don't want same amount of dots
-		if(red == green){
+		if(red == blue){
 			red = red + 1;
 		}
 		
-		Log.d("Circles", "Red, Green: " + red + ", " + green);
+		Log.d("Circles", "Red, Green: " + red + ", " + blue);
 		
 		class MyRecognitionListener implements RecognitionListener {
 			
 			private final String RED = "red";
-			private final String GREEN = "green";
+			private final String BLUE = "blue";
 
             @Override
             public void onBeginningOfSpeech() {
@@ -73,7 +72,7 @@ public class PlayActivity extends Activity {
             	stopWatch.stop();
                     Log.d("Circles", "onError " + error);
                     Log.d("Circles", "Total time: " + stopWatch.getElapsedTimeSecs());
-                    Log.d("Circles", "Red, Green: " + red + ", " + green);
+                    Log.d("Circles", "Red, Green: " + red + ", " + blue);
                     // timeout or no match
                     if(error == 6 || error == 7){
                     	Intent intent = new Intent(PlayActivity.this, ResultActivity.class);
@@ -103,13 +102,13 @@ public class PlayActivity extends Activity {
             		stopWatch.stop();
                     Log.d("Circles", "onResults");
                     Log.d("Circles", "Total time: " + stopWatch.getElapsedTimeSecs());
-                    Log.d("Circles", "Red, Green: " + red + ", " + green);
+                    Log.d("Circles", "Red, Green: " + red + ", " + blue);
                     ArrayList<String> strlist = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                     String color = this.getColor(strlist);
                     Log.d("Circles", "Color=" + color);
                     boolean success = false;
-                	if (PlayActivity.this.isGreen()){
-                		if(color.equalsIgnoreCase("green")){                            
+                	if (PlayActivity.this.isBlue()){
+                		if(color.equalsIgnoreCase("blue")){                            
                     		success = true;
                     	}                            	
                     }else{
@@ -126,14 +125,14 @@ public class PlayActivity extends Activity {
 
             @Override
             public void onRmsChanged(float rmsdB) {
-                    Log.d("Circles", "onRmsChanged");
+//                    Log.d("Circles", "onRmsChanged");
             }
             
             private String getColor(ArrayList<String> strlist){
             	for (int i = 0; i < strlist.size();i++ ) {
             		Log.d("Circles", "result=" + strlist.get(i));
-            		if(strlist.get(i).equalsIgnoreCase(GREEN)){
-            			return GREEN;
+            		if(strlist.get(i).equalsIgnoreCase(BLUE)){
+            			return BLUE;
             		}
             		if(strlist.get(i).equalsIgnoreCase(RED)){
             			return RED;
@@ -160,9 +159,10 @@ public class PlayActivity extends Activity {
 				        public void onGlobalLayout() {
 				        	int width = lc1.getWidth();
 				        	int height = lc1.getHeight();
-				        	
-				        	lc1.addView(new ImageCirclesView(PlayActivity.this, R.drawable.circle_red, width, height, PlayActivity.this.red));
-				        	lc2.addView(new ImageCirclesView(PlayActivity.this, R.drawable.circle_green, width, height, PlayActivity.this.green));
+				        	Log.d("Circles", "Details 1: " + width + ", " + height/2);
+				        	lc1.addView(new ImageCirclesView(PlayActivity.this, R.drawable.button_round_red, width, height, PlayActivity.this.red));
+				        	Log.d("Circles", "Details 2: " + width + ", " + height);
+				        	lc2.addView(new ImageCirclesView(PlayActivity.this, R.drawable.button_round_blue, width, height, PlayActivity.this.blue));
 
 				        	ViewTreeObserver obs = lc1.getViewTreeObserver();
 				            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
