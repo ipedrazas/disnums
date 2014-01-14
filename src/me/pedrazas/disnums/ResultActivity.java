@@ -46,5 +46,8 @@ public class ResultActivity extends Activity {
 	    startActivity(intent);
 	}
 	
-
+	public void doExit(View view) {
+	    Intent intent = new Intent(ResultActivity.this, SummaryActivity.class);
+	    startActivity(intent);
+	}
 }

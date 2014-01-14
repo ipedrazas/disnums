@@ -32,6 +32,10 @@
             android:name="me.pedrazas.disnums.ResultActivity"
             android:label="@string/title_activity_result" >
         </activity>
+        <activity
+            android:name="me.pedrazas.disnums.SummaryActivity"
+            android:label="@string/title_activity_results" >
+        </activity>
     </application>
 
 </manifest>

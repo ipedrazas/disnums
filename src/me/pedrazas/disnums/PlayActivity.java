@@ -15,6 +15,7 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
@@ -75,15 +76,15 @@ public class PlayActivity extends Activity {
             @Override
             public void onError(int error) {
             	stopWatch.stop();
-                    Log.d("Circles", "onError " + error);
-                    Log.d("Circles", "Total time: " + stopWatch.getElapsedTimeSecs());
-                    Log.d("Circles", "Red, Green: " + red + ", " + blue);
-                    // timeout or no match
-                    if(error == 6 || error == 7){
-                    	Intent intent = new Intent(PlayActivity.this, ResultActivity.class);
-                    	intent.putExtra("SUCCESS", false);
-                	    startActivity(intent);
-                    }
+                Log.d("Circles", "onError " + error);
+                Log.d("Circles", "Total time: " + stopWatch.getElapsedTimeSecs());
+                Log.d("Circles", "Red, Green: " + red + ", " + blue);
+                // timeout or no match
+                if(error == 6 || error == 7){
+                	Intent intent = new Intent(PlayActivity.this, ResultActivity.class);
+                	intent.putExtra("SUCCESS", false);
+            	    startActivity(intent);
+                }
             }
 
             @Override
@@ -104,28 +105,11 @@ public class PlayActivity extends Activity {
 
             @Override
             public void onResults(Bundle results) {
-            		stopWatch.stop();
-                    Log.d("Circles", "onResults");
-                    Log.d("Circles", "Total time: " + stopWatch.getElapsedTimeSecs());
-                    Log.d("Circles", "Red, Green: " + red + ", " + blue);
-                    ArrayList<String> strlist = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                    String color = this.getColor(strlist);
-                    Log.d("Circles", "Color=" + color);
-                    boolean success = false;
-                	if (PlayActivity.this.isBlue()){
-                		if(color.equalsIgnoreCase("blue")){                            
-                    		success = true;
-                    	}                            	
-                    }else{
-                    	if(color.equalsIgnoreCase("red")){                            
-                    		success = true;
-                    	}  
-                    }
-                	Log.d("Circles", "Success=" + success);
-                    Intent intent = new Intent(PlayActivity.this, ResultActivity.class);
-                	intent.putExtra("SUCCESS", success);
-            	    startActivity(intent);
-                    
+				stopWatch.stop();
+				ArrayList<String> strlist = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+				String color = this.getColor(strlist);
+				Log.d("Circles", "Color=" + color);
+				PlayActivity.this.showResult(color);                   
             }
 
             @Override
@@ -185,6 +169,35 @@ public class PlayActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.play, menu);
 		return true;
+	}
+	
+	public void selectBlue(View view) 
+	{
+		stopWatch.stop();
+		showResult("blue");
+	}
+	
+	public void selectRed(View view) 
+	{
+		stopWatch.stop();
+		showResult("red");
+	}
+	
+	public void showResult(String color){
+		boolean success = false;
+     	if (this.isBlue()){
+     		if(color.equalsIgnoreCase("blue")){                            
+         		success = true;
+         	}                            	
+         }else{
+         	if(color.equalsIgnoreCase("red")){                            
+         		success = true;
+         	}  
+         }
+     	Log.d("Circles", "Success=" + success);
+        Intent intent = new Intent(PlayActivity.this, ResultActivity.class);
+     	intent.putExtra("SUCCESS", success);
+ 	    startActivity(intent);
 	}
 
 
