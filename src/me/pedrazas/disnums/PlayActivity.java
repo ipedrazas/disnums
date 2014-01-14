@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 public class PlayActivity extends Activity {
@@ -37,6 +39,9 @@ public class PlayActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+	                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_play);
 		blue = Utils.randInt(1, 10);
 		red = Utils.randInt(1, 10);
