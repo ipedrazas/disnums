@@ -197,6 +197,7 @@ public class PlayActivity extends Activity {
      	Log.d("Circles", "Success=" + success);
         Intent intent = new Intent(PlayActivity.this, ResultActivity.class);
      	intent.putExtra("SUCCESS", success);
+     	intent.putExtra("COLOR", color);
  	    startActivity(intent);
 	}
 

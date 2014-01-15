@@ -21,6 +21,7 @@ public class ResultActivity extends Activity {
 		setContentView(R.layout.activity_result);
 		Intent intent = getIntent();
 		boolean success = intent.getBooleanExtra("SUCCESS", false);
+		String color = intent.getStringExtra("COLOR");
 		TextView txt =  (TextView) findViewById(R.id.textResult);
 		View view = findViewById(R.id.textResultLayout);
 	    
@@ -29,7 +30,8 @@ public class ResultActivity extends Activity {
 			view.setBackgroundColor(Color.parseColor("#008A05"));
 			
 		}else{
-			txt.setText(R.string.ohoh);
+			
+			txt.setText(R.string.ohoh + " it was ");
 			view.setBackgroundColor(Color.parseColor("#E60017"));
 		}
 	}
