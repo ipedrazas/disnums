@@ -1,5 +1,6 @@
 package me.pedrazas.disnums;
 
+import me.pedrazas.disnums.om.Game;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void doPlay(View view) {
+		Game g = new Game();
 	    Intent intent = new Intent(MainActivity.this, PlayActivity.class);
 	    startActivity(intent);
 	}

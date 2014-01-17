@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import me.pedrazas.disnums.data.DebugDataSource;
 import me.pedrazas.disnums.om.Debug;
+import me.pedrazas.disnums.om.Round;
 import me.pedrazas.disnums.utils.StopWatch;
 import me.pedrazas.disnums.utils.Utils;
 import me.pedrazas.disnums.views.ImageCirclesView;
@@ -31,6 +32,7 @@ public class PlayActivity extends Activity {
 	int colorOne = 0;
 	int colorTwo = 0;
 	
+	private final Round round = new Round();
 	private final StopWatch stopWatch = new StopWatch();
 	String firstColor;
 	String secondColor;
@@ -164,6 +166,7 @@ public class PlayActivity extends Activity {
 				            } else {
 				                obs.removeGlobalOnLayoutListener(this);
 				            }
+				            PlayActivity.this.round.start();
 				            stopWatch.start();
 				        }
 				});
