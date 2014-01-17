@@ -9,11 +9,14 @@
     <string name="title_activity_result">ResultActivity</string>
     <string name="result">Result</string>
     <string name="great">Great!</string>
-    <string name="ohoh">Oh Oh&#8230;</string>
+    <string name="ohoh">Did you say</string>
     <string name="woot">Woot?</string>
     <string name="new_game">New Game</string>
     <string name="exit">Exit</string>
     <string name="title_activity_results">ResultsActivity</string>
     <string name="play_again">Play Again?</string>
+    <string name="blue">blue</string>
+    <string name="red">red</string>
+    <string name="missed">Sorry, I\'ve missed what you just said&#8230;</string>
 
 </resources>

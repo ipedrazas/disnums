@@ -44,4 +44,11 @@ public class StopWatch {
 	    }
 	    return elapsed;
 	  }
+	  
+	  public long getStartTime(){
+		  return this.startTime;
+	  }
+	  public long getStopTime(){
+		  return this.stopTime;
+	  }
 }

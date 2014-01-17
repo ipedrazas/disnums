@@ -2,6 +2,8 @@ package me.pedrazas.disnums;
 
 import java.util.ArrayList;
 
+import me.pedrazas.disnums.data.DebugDataSource;
+import me.pedrazas.disnums.om.Debug;
 import me.pedrazas.disnums.utils.StopWatch;
 import me.pedrazas.disnums.utils.Utils;
 import me.pedrazas.disnums.views.ImageCirclesView;
@@ -25,12 +27,16 @@ import android.widget.LinearLayout;
 public class PlayActivity extends Activity {
 	
 	protected static final int REQUEST_OK = 1;
-	int blue = 0;
-	int red = 0;
-	private final StopWatch stopWatch = new StopWatch();
 	
-	private boolean isBlue(){
-		if( this.blue < this.red){
+	int colorOne = 0;
+	int colorTwo = 0;
+	
+	private final StopWatch stopWatch = new StopWatch();
+	String firstColor;
+	String secondColor;
+	
+	private boolean isColorOne(){
+		if( this.colorOne < this.colorTwo){
 			return false;
 		}else{
 			return true;
@@ -44,19 +50,18 @@ public class PlayActivity extends Activity {
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 	                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_play);
-		blue = Utils.randInt(1, 10);
-		red = Utils.randInt(1, 10);
+		this.firstColor = getResources().getString(R.string.blue);
+		this.secondColor = getResources().getString(R.string.red);
+		this.colorOne = Utils.randInt(1, 10);
+		this.colorTwo = Utils.randInt(1, 10);
 		// don't want same amount of dots
-		if(red == blue){
-			red = red + 1;
+		if(colorTwo == colorOne){
+			colorTwo = colorTwo + 1;
 		}
 		
-		Log.d("Circles", "Red, Green: " + red + ", " + blue);
+		Log.d("Circles", "Red, Green: " + colorTwo + ", " + colorOne);
 		
 		class MyRecognitionListener implements RecognitionListener {
-			
-			private final String RED = "red";
-			private final String BLUE = "blue";
 
             @Override
             public void onBeginningOfSpeech() {
@@ -76,9 +81,6 @@ public class PlayActivity extends Activity {
             @Override
             public void onError(int error) {
             	stopWatch.stop();
-                Log.d("Circles", "onError " + error);
-                Log.d("Circles", "Total time: " + stopWatch.getElapsedTimeSecs());
-                Log.d("Circles", "Red, Green: " + red + ", " + blue);
                 // timeout or no match
                 if(error == 6 || error == 7){
                 	Intent intent = new Intent(PlayActivity.this, ResultActivity.class);
@@ -120,14 +122,14 @@ public class PlayActivity extends Activity {
             private String getColor(ArrayList<String> strlist){
             	for (int i = 0; i < strlist.size();i++ ) {
             		Log.d("Circles", "result=" + strlist.get(i));
-            		if(strlist.get(i).equalsIgnoreCase(BLUE)){
-            			return BLUE;
+            		if(strlist.get(i).equalsIgnoreCase(PlayActivity.this.firstColor)){
+            			return PlayActivity.this.firstColor;
             		}
-            		if(strlist.get(i).equalsIgnoreCase(RED)){
-            			return RED;
+            		if(strlist.get(i).equalsIgnoreCase(PlayActivity.this.secondColor)){
+            			return PlayActivity.this.secondColor;
             		}
             	}
-            	return "";            	
+            	return strlist.get(0);            	
             }
 		}
 		
@@ -148,11 +150,8 @@ public class PlayActivity extends Activity {
 				        public void onGlobalLayout() {
 				        	int width = lc1.getWidth();
 				        	int height = lc1.getHeight();
-				        	Log.d("Circles", "Details 1: " + width + ", " + height/2);
-				        	lc1.addView(new ImageCirclesView(PlayActivity.this, R.drawable.button_round_red, width, height, PlayActivity.this.red));
-				        	Log.d("Circles", "Details 2: " + width + ", " + height);
-				        	lc2.addView(new ImageCirclesView(PlayActivity.this, R.drawable.button_round_blue, width, height, PlayActivity.this.blue));
-
+				        	lc1.addView(new ImageCirclesView(PlayActivity.this, R.drawable.button_round_red, width, height, PlayActivity.this.colorTwo));
+				        	lc2.addView(new ImageCirclesView(PlayActivity.this, R.drawable.button_round_blue, width, height, PlayActivity.this.colorOne));
 				        	ViewTreeObserver obs = lc1.getViewTreeObserver();
 				            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 				                obs.removeOnGlobalLayoutListener(this);
@@ -185,19 +184,37 @@ public class PlayActivity extends Activity {
 	
 	public void showResult(String color){
 		boolean success = false;
-     	if (this.isBlue()){
-     		if(color.equalsIgnoreCase("blue")){                            
+		String validColor = null;
+		boolean isColorOne = this.isColorOne();
+		
+		Log.d("Circles", "isColorOne? " + isColorOne + ", Color: " + color + " colorOne: " + colorOne + ", colorTwo " + colorTwo);
+     	if (isColorOne){
+     		validColor = this.firstColor;
+     		if(color.equalsIgnoreCase(this.firstColor)){                            
          		success = true;
          	}                            	
          }else{
-         	if(color.equalsIgnoreCase("red")){                            
-         		success = true;
+        	 validColor = this.secondColor;
+         	if(color.equalsIgnoreCase(this.secondColor)){                            
+         		success = true;         		
          	}  
          }
      	Log.d("Circles", "Success=" + success);
+     	Log.d("Circles", "Entry color is " + color + ", First is " + this.firstColor + ", second " + this.secondColor + ". Valid: " + validColor );
         Intent intent = new Intent(PlayActivity.this, ResultActivity.class);
      	intent.putExtra("SUCCESS", success);
      	intent.putExtra("COLOR", color);
+     	intent.putExtra("VALIDCOLOR", validColor);
+     	Debug d = new Debug();
+     	d.setColor(validColor);
+     	d.setDate();
+     	d.setDuration(this.stopWatch.getElapsedTimeSecs());
+     	d.setEnd(this.stopWatch.getStopTime());
+     	d.setSelectedColor(color);
+     	d.setStart(this.stopWatch.getStartTime());
+     	d.setSuccess(success);
+     	DebugDataSource ds = new DebugDataSource(this);
+     	ds.addDebugEntry(d);
  	    startActivity(intent);
 	}
 
