@@ -1,15 +1,9 @@
 package me.pedrazas.disnums;
 
-import java.util.List;
-
-import me.pedrazas.disnums.data.DbHelper;
-import me.pedrazas.disnums.data.DebugDataSource;
-import me.pedrazas.disnums.om.Debug;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -54,11 +48,7 @@ public class ResultActivity extends Activity {
 			view.setBackgroundColor(Color.parseColor("#E60017"));
 		}
 		txt.setText(text);
-		DebugDataSource ds = new DebugDataSource(this);
-		List<Debug> entries = ds.getAllDebugEntries();
-		for(Debug d : entries){
-			Log.d("Circles", d.toJson());
-		}
+		
 	}
 
 	@Override

@@ -1,5 +1,9 @@
 package me.pedrazas.disnums;
 
+import java.util.List;
+
+import me.pedrazas.disnums.data.DebugDataSource;
+import me.pedrazas.disnums.om.Debug;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +22,11 @@ public class SummaryActivity extends Activity {
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 	                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_summary);
+		DebugDataSource ds = new DebugDataSource(this);
+		List<Debug> entries = ds.getAllDebugEntries();
+		for(Debug d : entries){
+			Log.d("Circles", d.toJson());
+		}
 	}
 
 	@Override

@@ -133,12 +133,18 @@ public class PlayActivity extends Activity {
             }
 		}
 		
+//		new Runnable(){ 
+//			public void run(){ 
+
+				SpeechRecognizer sr = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
+		        MyRecognitionListener listener = new MyRecognitionListener();
+		        sr.setRecognitionListener(listener);
+		        sr.startListening(RecognizerIntent.getVoiceDetailsIntent(getApplicationContext()));
+		        
+//				}
+//			};
 		
 		
-		SpeechRecognizer sr = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
-        MyRecognitionListener listener = new MyRecognitionListener();
-        sr.setRecognitionListener(listener);
-        sr.startListening(RecognizerIntent.getVoiceDetailsIntent(getApplicationContext()));
 		
 		final LinearLayout lc1 =  (LinearLayout) findViewById(R.id.lc1);
 		final LinearLayout lc2 =  (LinearLayout) findViewById(R.id.lc2);
