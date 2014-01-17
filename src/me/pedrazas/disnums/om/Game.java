@@ -3,7 +3,10 @@ package me.pedrazas.disnums.om;
 import java.util.Date;
 import java.util.List;
 
-public class Game {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Game implements Parcelable{
 	
 	public Game() {
 		super();
@@ -61,6 +64,17 @@ public class Game {
 
 	public void setPlayer(String player) {
 		this.player = player;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
