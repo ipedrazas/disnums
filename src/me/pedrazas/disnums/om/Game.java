@@ -3,6 +3,7 @@ package me.pedrazas.disnums.om;
 import java.util.Date;
 import java.util.List;
 
+import me.pedrazas.disnums.utils.StopWatch;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -13,6 +14,8 @@ public class Game implements Parcelable{
 		this.date = new Date();
 		this.startTime = System.currentTimeMillis();
 		this.numRounds = 5;
+		this.stopWatch = new StopWatch();
+		
 	}
 	
 	private List<Round> rounds;
@@ -22,9 +25,21 @@ public class Game implements Parcelable{
 	private Date date;
 	private int result;
 	private String player;
+	private StopWatch stopWatch;
 	
+	
+	
+	public StopWatch getStopWatch() {
+		return stopWatch;
+	}
+
+	public void setStopWatch(StopWatch stopWatch) {
+		this.stopWatch = stopWatch;
+	}
+
 	public void end(){
 		this.endTime = System.currentTimeMillis();
+		this.stopWatch.stop();
 	}
 	
 	public List<Round> getRounds() {
@@ -35,6 +50,7 @@ public class Game implements Parcelable{
 	}
 	public long getStartTime() {
 		return startTime;
+		
 	}
 	
 	public int getNumRounds() {
