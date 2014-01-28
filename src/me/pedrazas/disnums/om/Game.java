@@ -27,7 +27,9 @@ public class Game implements Parcelable{
 	private String player;
 	private StopWatch stopWatch;
 	
-	
+	public void start(){
+		this.stopWatch.start();
+	}
 	
 	public StopWatch getStopWatch() {
 		return stopWatch;
